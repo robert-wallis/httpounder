@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 func replayLine(id int, line string) error {
@@ -13,12 +14,14 @@ func replayLine(id int, line string) error {
 		return fmt.Errorf("line should be \"METHOD location\" \"%s\"", line)
 	}
 	fmt.Printf("#%d: %s => ", id, line)
+	start := time.Now()
 	res, err := sendHttp(fields[0], fields[1])
 	if err != nil {
 		fmt.Println("")
 		return err
 	}
-	fmt.Println(res)
+	stop := time.Since(start)
+	fmt.Printf("%s %dms\n", res, stop/time.Millisecond)
 	return nil
 }
 
