@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -18,10 +19,12 @@ func main() {
 		return
 	}
 	err := replayFile(args[0])
+	if err == io.EOF {
+		return
+	}
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
 		return
 	}
-	os.Exit(0)
 }
